@@ -1,4 +1,4 @@
-// page lifecycle > Paint > Render
+        // page lifecycle > Paint > Render
         // JS kab execute hua, process hua
         // Objects in javascript
         // Prototype
@@ -130,6 +130,52 @@
             return /^[A-Za-z ]+$/.test(n);
         }
         function validateContact(c){
-            return /^[0-9]+$/.test(c)
+            duplicate=true
+            contacts.forEach(i => {
+                if(i.contact.localeCompare(c)==0){
+                    duplicate=false;
+                }
+            });
+            return /^[0-9]+$/.test(c) && duplicate
+        }
+        function showAllContacts(){
+            createTable()
+            var i=0
+            contacts.forEach(c => {
+                
+                var tr=document.createElement('tr')        
+                tds=[createTd(i+1),createTd(c.name),createTd(c.contact),createDelTd(i)]
+                i+=1;
+                tds.forEach(td => {
+                    tr.appendChild(td);
+                    td.style.padding="10px"
+                });
+                table.appendChild(tr)
+            });
+        }
+        document.querySelector('#sortName').onclick=function(){
+            if(contacts.length>1){
+                order=document.querySelector('#order').value
+                document.querySelector('#contacts').textContent=''
+                if(order.localeCompare('desc'))
+                    contacts=contacts.sort((a,b)=>{return a.name.localeCompare(b.name)});
+                else
+                    contacts=contacts.sort((a,b)=>{return b.name.localeCompare(a.name)});
+                console.log(contacts)
+                showAllContacts()
+            }
+        }
+
+        document.querySelector('#sortContact').onclick=function(){
+            if(contacts.length>1){
+                order=document.querySelector('#order').value
+                document.querySelector('#contacts').textContent=''
+                if(order.localeCompare('desc'))
+                    contacts=contacts.sort((a,b)=>{return a.contact - b.contact});
+                else
+                    contacts=contacts.sort((a,b)=>{return b.contact - a.contact});
+                console.log(contacts)
+                showAllContacts()
+            }
         }
         
