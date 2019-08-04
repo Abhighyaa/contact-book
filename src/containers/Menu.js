@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { addContact, getContacts } from "../actions";
 
-const Menu = ({ contacts, dispatch }) => {
+const Menu = ({ dispatch }) => {
   return (
     <div>
       Name : <input type="text" id="name" />
@@ -36,9 +36,5 @@ const Menu = ({ contacts, dispatch }) => {
     </div>
   );
 };
-const mapStateToProps = state => {
-  return {
-    contacts: state.contactsReducer.contacts
-  };
-};
-export default connect(mapStateToProps)(Menu);
+
+export default connect()(Menu);

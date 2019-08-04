@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./App.css";
-import Menu from "./components/Menu";
+import Menu from "./containers/Menu";
 import combineReducers from "./reducers";
 import { Provider } from "react-redux";
 import ShowContacts from './containers/showContacts'
