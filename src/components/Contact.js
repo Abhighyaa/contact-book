@@ -1,18 +1,27 @@
-import React from 'react';
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { deleteContact } from "../actions";
+const Contact = ({ id, contact, dispatch }) => (
+  <div>
+    <tr>
+      <td>{id}</td>
+      <td>{contact.name}</td>
+      <td>{contact.contact}</td>
+      <td>
+        <a href="#" id={id} onClick={e=>{dispatch(deleteContact(id))}}>
+          Delete
+        </a>
+      </td>
+    </tr>
+  </div>
+);
 
-class Contact extends React.Component {
-    render(){
-        return (
-        <div>
-            <tr>
-                <td>{this.props.id}</td>
-                <td>{this.props.contact.name}</td> 
-                <td>{this.props.contact.contact}</td> 
-                <td><a href="#" id={this.props.id} onClick={()=>this.props.handleDelete(this.props.id)}>Delete</a></td>
-            </tr>
-        </div>
-        );
-    }
-}
+Contact.propTypes = {
+  contact: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    contact: PropTypes.string.isRequired
+  }).isRequired
+};
 
-export default Contact;
+export default connect()(Contact);
