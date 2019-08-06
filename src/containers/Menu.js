@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { addContact, getContacts } from "../actions";
+import { fetchWithNewContact, fetchSortedContacts } from "../actions";
 
 const Menu = ({ dispatch }) => {
   return (
@@ -14,9 +14,7 @@ const Menu = ({ dispatch }) => {
             name: document.getElementById("name").value,
             contact: document.getElementById("contact").value
           };
-          dispatch(addContact(c));
-          document.getElementById("name").value = "";
-          document.getElementById("contact").value = "";
+          dispatch(fetchWithNewContact(c));
         }}
       >
         Add{" "}
@@ -24,10 +22,10 @@ const Menu = ({ dispatch }) => {
       <select
         id="sortBy"
         onChange={e => {
-          dispatch(getContacts());
+          dispatch(fetchSortedContacts());
         }}
       >
-        <option value="" selected disabled="true">
+        <option value="" default disabled>
           Sort by
         </option>
         <option value="name">Name</option>

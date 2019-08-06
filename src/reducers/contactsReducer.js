@@ -1,40 +1,43 @@
-const initialState = {
-  contacts: [],
+var localStorageContacts=[]
+var localStorageContactsArray=[]
+// var parsedLocalStorageContacts=[]
+if(localStorage.getItem("contacts")!=null){
+  localStorageContacts = JSON.parse(localStorage.getItem("contacts"));
+  localStorageContactsArray = Object.keys(localStorageContacts).map(function(contact) {
+    return [Number(contact), localStorageContacts[contact]];
+  });
+}
+  const initialState = {
+  contacts: localStorageContactsArray,
   contact: {}
 };
+
 const contactsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "Add_Contact":
-      return Object.assign({}, state, {
-        contacts: [...state.contacts, action.contact]
-      });
+    case "Update_Contacts":
+        var contactsArray = Object.keys(action.contacts).map(function(contact) {
+          return [Number(contact), localStorageContacts[contact]];
+        });
+      return Object.assign({}, state, { contacts: contactsArray });
 
-    case "Delete_Contact":
-      var allContacts = [...state.contacts];
-      return Object.assign({}, state, {
-        contacts: allContacts
-          .slice(0, action.id - 1)
-          .concat(allContacts.slice(action.id, state.contacts.length))
-      });
-
-    case "Get_Contacts":
-      var contacts = [...state.contacts];
+    case "Fetch_Sorted_Contacts":
+      contacts = [...state.contacts];
       var sortBy = document.querySelector("#sortBy").value;
-      if (sortBy.localeCompare("name") == 0) {
+      var contacts = Object.entries(localStorage);
+      if (sortBy.localeCompare("name") === 0) {
         contacts.sort((a, b) => {
-          return a.name.localeCompare(b.name);
+          return a[1].localeCompare(b[1]);
         });
       }
-      if (sortBy.localeCompare("contacts") == 0) {
+      if (sortBy.localeCompare("contacts") === 0) {
         contacts.sort((a, b) => {
-          return a.contact - b.contact;
+          return a[0] - b[0];
         });
       }
-      return Object.assign({}, state, {
-        contacts: contacts
-      });
+      return Object.assign({}, state, { contacts: contacts });
+    default:
+      return state;
   }
-  return state;
 };
 
 export default contactsReducer;

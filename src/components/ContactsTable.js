@@ -1,30 +1,25 @@
 import React from "react";
 import Contact from "./Contact.js";
-import PropTypes from 'prop-types';
-
-const ContactsTable = ({contacts}) => 
-  (
-    <div>
-      <table>
-        <thead>
-          <td>S.No</td>
-          <td>Name</td>
-          <td>Contact</td>
-          <td>Action</td>
-        </thead>
-        { contacts.map((c, index) => {
-          return <Contact id={index + 1} contact={c}></Contact>;
-        }) }
-      </table>
-    </div>
-  )
-  ContactsTable.propTypes = {
-    contacts: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        contact: PropTypes.string.isRequired
-      }).isRequired
-    ).isRequired,
-  }
+// import PropTypes from "prop-types";
+var parsedContacts = [];
+const ContactsTable = ({ contacts }) => (
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Name</th>
+          <th>Contact</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {contacts.map((c, index) => {
+          return <Contact key={index + 1} id={index + 1} contact={c}></Contact>;
+        })}
+      </tbody>
+    </table>
+  </div>
+);
 
 export default ContactsTable;

@@ -7,15 +7,15 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
+// const mapDispatchToProps = dispatch => {
+//   return {
       
-  }
-}
+//   }
+// }
 
 const ShowContacts = connect(
   mapStateToProps,
-  mapDispatchToProps
+  //mapDispatchToProps
 )(ContactsTable)
 
 export default ShowContacts

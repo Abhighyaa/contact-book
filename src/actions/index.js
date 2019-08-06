@@ -1,19 +1,24 @@
-export const addContact = contact => ({
-  type: "Add_Contact",
-  contact: contact
-});
-export const deleteContact = id => ({
-  type: "Delete_Contact",
-  id: id
-});
-export const getContacts = () => ({
-  type: "Get_Contacts"
-});
-export const sortName = contacts => ({
-  type: "Sort_byName",
+import { addContactFun, deleteContactFun } from "../apiCalls";
+
+export const updateContacts = contacts => ({
+  type: "Update_Contacts",
   contacts: contacts
 });
-export const sortContact = contacts => ({
-  type: "Sort_byContact",
-  contacts: contacts
+
+export const fetchWithNewContact = contact => {
+  return dispatch => {
+    return addContactFun(contact).then(newContacts => {
+      dispatch(updateContacts(newContacts));
+    });
+  };
+};
+export const fetchWithDeletedContact = id => {
+  return dispatch => {
+    return deleteContactFun(id).then(newContacts => {
+      dispatch(updateContacts(newContacts));
+    });
+  };
+};
+export const fetchSortedContacts = () => ({
+  type: "Fetch_Sorted_Contacts"
 });
