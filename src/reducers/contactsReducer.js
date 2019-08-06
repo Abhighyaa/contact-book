@@ -16,7 +16,7 @@ const contactsReducer = (state = initialState, action) => {
   switch (action.type) {
     case "Update_Contacts":
         var contactsArray = Object.keys(action.contacts).map(function(contact) {
-          return [Number(contact), [contact]];
+          return [Number(contact), action.contacts[contact]];
         });
         console.info(contactsArray)
       return Object.assign({}, state, { contacts: contactsArray });
