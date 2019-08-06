@@ -5,14 +5,14 @@ import { fetchWithDeletedContact } from "../actions";
 const Contact = ({ id, contact, dispatch }) => (
   <tr>
     <td>{id}</td>
-    <td>{contact[1]}</td>
-    <td>{contact[0]}</td>
+    <td>{contact.name}</td>
+    <td>{contact.contact}</td>
     <td>
       <a
         href="#"
-        id={contact[0]}
+        id={contact.contact}
         onClick={e => {
-          dispatch(fetchWithDeletedContact(contact[0]));
+          dispatch(fetchWithDeletedContact(contact.contact));
         }}
       >
         Delete

@@ -1,8 +1,11 @@
 import { combineReducers } from "redux";
 import contactsReducer from "./contactsReducer";
-// import sortReducer from "./sortReducer";
+import suggestionsReducer from "./suggestionsReducer";
 
-export default combineReducers({
+const combinedReducers=combineReducers({
   contactsReducer: contactsReducer,
+  // suggestionsReducer: suggestionsReducer,
 //   sortReducer:sortReducer(state.contactsReducer,action)
 })
+
+export default combinedReducers;

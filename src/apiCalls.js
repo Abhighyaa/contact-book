@@ -1,3 +1,5 @@
+import { updateContacts } from "./actions";
+
 export function addContactFun(contactObj) {
   return new Promise(function(resolve, reject) {
     setTimeout(function() {
@@ -18,13 +20,19 @@ export function addContactFun(contactObj) {
         document.getElementById("contact").value = "";
 
         var localStorageContacts = {};
-        if (localStorage.getItem("contacts") == null) localStorageContacts = {};
-        else
-          localStorageContacts = JSON.parse(localStorage.getItem("contacts"));
-        localStorageContacts[contactObj.contact] = contactObj.name;
-        // console.info(localStorageContacts)
-        localStorage.setItem("contacts", JSON.stringify(localStorageContacts));
-        resolve(localStorageContacts);
+        var allContacts = [];
+
+        localStorageContacts = JSON.parse(localStorage.getItem("contacts"));
+
+        if (localStorageContacts != null)
+          allContacts = localStorageContacts["contacts"];
+        allContacts.push(contactObj);
+
+        var storageStructure = JSON.stringify({ contacts: allContacts });
+
+        localStorage.setItem("contacts", storageStructure);
+
+        resolve(JSON.parse(storageStructure)["contacts"]);
       } else {
         alert(check);
       }
@@ -32,14 +40,20 @@ export function addContactFun(contactObj) {
   });
 }
 
-export function deleteContactFun(id) {
+export function deleteContactFun(contact) {
   return new Promise(function(resolve, reject) {
     setTimeout(function() {
-      var localStorageContacts = JSON.parse(localStorage.getItem("contacts"));
+      var localStorageContacts = JSON.parse(localStorage.getItem("contacts"))[
+        "contacts"
+      ];
 
-      delete localStorageContacts[id];
-      localStorage.setItem("contacts", JSON.stringify(localStorageContacts));
-      resolve(localStorageContacts);
+      var updatedContacts = [];
+      localStorageContacts.forEach((c, index) => {
+        if (c.contact!=contact) updatedContacts.push(c);
+      });
+      var storageStructure = JSON.stringify({ contacts: updatedContacts });
+      localStorage.setItem("contacts", storageStructure);
+      resolve(updatedContacts);
     }, 100);
   });
 }

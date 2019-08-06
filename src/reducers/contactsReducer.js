@@ -1,41 +1,61 @@
-var localStorageContacts=[]
-var localStorageContactsArray=[]
-// var parsedLocalStorageContacts=[]
-if(localStorage.getItem("contacts")!=null){
-  localStorageContacts = JSON.parse(localStorage.getItem("contacts"));
-  localStorageContactsArray = Object.keys(localStorageContacts).map(function(contact) {
-    return [Number(contact), localStorageContacts[contact]];
-  });
+var localStorageContacts = [];
+if (localStorage.getItem("contacts") != null) {
+  localStorageContacts = JSON.parse(localStorage.getItem("contacts"))[
+    "contacts"
+  ];
 }
-  const initialState = {
-  contacts: localStorageContactsArray,
-  contact: {}
+const initialState = {
+  contacts: localStorageContacts,
+  contact: {},
+  suggestions: []
 };
-
 const contactsReducer = (state = initialState, action) => {
   switch (action.type) {
     case "Update_Contacts":
-        var contactsArray = Object.keys(action.contacts).map(function(contact) {
-          return [Number(contact), [contact]];
-        });
-        console.info(contactsArray)
-      return Object.assign({}, state, { contacts: contactsArray });
-
-    case "Fetch_Sorted_Contacts":
-      contacts = [...state.contacts];
       var sortBy = document.querySelector("#sortBy").value;
-      var contacts = Object.entries(localStorage);
+      if (sortBy.localeCompare("name") === 0) {
+        action.contacts.sort((a, b) => {
+          return a.name.localeCompare(b.name);
+        });
+      }
+      if (sortBy.localeCompare("contacts") === 0) {
+        action.contacts.sort((a, b) => {
+          return a.contact - b.contact;
+        });
+      }
+      return Object.assign({}, state, {
+        contacts: action.contacts,
+        suggestions: []
+      });
+    case "Fetch_Sorted_Contacts":
+      var contacts = [...state.contacts];
+      console.log(contacts);
+      var sortBy = document.querySelector("#sortBy").value;
       if (sortBy.localeCompare("name") === 0) {
         contacts.sort((a, b) => {
-          return a[1].localeCompare(b[1]);
+          return a.name.localeCompare(b.name);
         });
       }
       if (sortBy.localeCompare("contacts") === 0) {
         contacts.sort((a, b) => {
-          return a[0] - b[0];
+          return a.contact - b.contact;
         });
       }
       return Object.assign({}, state, { contacts: contacts });
+    case "Fetch_Suggestions":
+      var suggestedNames = [];
+      if (action.suggestionsFor != "") {
+        state.contacts.forEach(contact => {
+          if (contact.name.includes(action.suggestionsFor)) {
+            suggestedNames.push(contact.name);
+          }
+        });
+        document.querySelector("#suggestions").textContent = suggestedNames;
+        return Object.assign({}, state, { suggestions: suggestedNames });
+      } else {
+        document.querySelector("#suggestions").textContent = "";
+        return Object.assign({}, state, { suggestions: "" });
+      }
     default:
       return state;
   }
