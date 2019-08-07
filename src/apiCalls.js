@@ -1,5 +1,3 @@
-import { updateContacts } from "./actions";
-
 export function addContactFun(contactObj) {
   return new Promise(function(resolve, reject) {
     setTimeout(function() {
@@ -49,7 +47,7 @@ export function deleteContactFun(contact) {
 
       var updatedContacts = [];
       localStorageContacts.forEach((c, index) => {
-        if (c.contact!=contact) updatedContacts.push(c);
+        if (c.contact != contact) updatedContacts.push(c);
       });
       var storageStructure = JSON.stringify({ contacts: updatedContacts });
       localStorage.setItem("contacts", storageStructure);

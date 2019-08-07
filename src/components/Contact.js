@@ -21,4 +21,5 @@ const Contact = ({ id, contact, dispatch }) => (
   </tr>
 );
 
+// mapStateToProps, mapDispatchToProps
 export default connect()(Contact);

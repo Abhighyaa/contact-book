@@ -1,9 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
+import { addContactFun } from "../apiCalls";
+import store from "../store";
 import {
   fetchWithNewContact,
   fetchSortedContacts,
-  fetchSuggestions
+  fetchSuggestions,
+  updateContacts
 } from "../actions";
 
 // PureComponent > Functional Components > Stateful React Components
@@ -15,18 +18,23 @@ class Menu extends React.Component {
     this.addOnClickHandler = this.addOnClickHandler.bind(this);
     this.fetchSuggestions = this.fetchSuggestions.bind(this);
   }
-  fetchSuggestions() {
+  fetchSuggestions(val) {
     let timer;
-    return () => {
+    const delayFun = () => {
       clearTimeout(timer);
+
       timer = setTimeout(() => {
         {
-          var value = document.getElementById("name").value;
-          this.props.dispatch(fetchSuggestions(value));
-          // this.dispatchFetchSuggestions.apply();
+          // Refactor
+          // why is this a problem ?
+          // why DOM operations inside React is an issue
+          // var value = document.getElementById("name").value;
+          const { contacts } = store.getState().contactsReducer;
+          this.props.dispatch(fetchSuggestions(val, contacts));
         }
       }, 300);
     };
+    delayFun();
   }
 
   addOnClickHandler() {
@@ -34,14 +42,20 @@ class Menu extends React.Component {
       name: document.getElementById("name").value,
       contact: document.getElementById("contact").value
     };
-    console.info(this);
+    // addContactFun(c).then(newContacts => {
+    //   this.props.dispatch(updateContacts(newContacts));
+    // });
     this.props.dispatch(fetchWithNewContact(c));
   }
   render() {
     return (
       <div>
         Name :{" "}
-        <input type="text" id="name" onKeyUp={this.fetchSuggestions()} />
+        <input
+          type="text"
+          id="name"
+          onKeyUp={e => this.fetchSuggestions(e.target.value)}
+        />
         {/* <datalist id="datalist"></datalist> */}
         Contact : <input type="text" id="contact" />
         <button id="add" onClick={this.addOnClickHandler}>
@@ -61,6 +75,5 @@ class Menu extends React.Component {
     );
   }
 }
-
 
 export default connect()(Menu);

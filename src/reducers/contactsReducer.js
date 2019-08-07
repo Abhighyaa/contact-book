@@ -5,13 +5,22 @@ if (localStorage.getItem("contacts") != null) {
   ];
 }
 const initialState = {
-  contacts: localStorageContacts,
-  contact: {},
-  suggestions: []
+  contacts: localStorageContacts
+  // not sure if we need this !?
+  // contact: {},
+  // suggestions: []
 };
+
+/**
+ * Webpack, Babel, Eslint
+ * refs in React
+ */
 const contactsReducer = (state = initialState, action) => {
+  // console.info(state)
   switch (action.type) {
     case "Update_Contacts":
+      // ?!
+      console.log(action.contacts);
       var sortBy = document.querySelector("#sortBy").value;
       if (sortBy.localeCompare("name") === 0) {
         action.contacts.sort((a, b) => {
@@ -27,6 +36,7 @@ const contactsReducer = (state = initialState, action) => {
         contacts: action.contacts,
         suggestions: []
       });
+
     case "Fetch_Sorted_Contacts":
       var contacts = [...state.contacts];
       console.log(contacts);
@@ -42,20 +52,20 @@ const contactsReducer = (state = initialState, action) => {
         });
       }
       return Object.assign({}, state, { contacts: contacts });
-    case "Fetch_Suggestions":
-      var suggestedNames = [];
-      if (action.suggestionsFor != "") {
-        state.contacts.forEach(contact => {
-          if (contact.name.includes(action.suggestionsFor)) {
-            suggestedNames.push(contact.name);
-          }
-        });
-        document.querySelector("#suggestions").textContent = suggestedNames;
-        return Object.assign({}, state, { suggestions: suggestedNames });
-      } else {
-        document.querySelector("#suggestions").textContent = "";
-        return Object.assign({}, state, { suggestions: "" });
-      }
+    // case "Fetch_Suggestions":
+    //   var suggestedNames = [];
+    //   if (action.suggestionsFor != "") {
+    //     state.contacts.forEach(contact => {
+    //       if (contact.name.includes(action.suggestionsFor)) {
+    //         suggestedNames.push(contact.name);
+    //       }
+    //     });
+    //     document.querySelector("#suggestions").textContent = suggestedNames;
+    //     return Object.assign({}, state, { suggestions: suggestedNames });
+    //   } else {
+    //     document.querySelector("#suggestions").textContent = "";
+    //     return Object.assign({}, state, { suggestions: "" });
+    //   }
     default:
       return state;
   }

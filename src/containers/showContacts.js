@@ -1,21 +1,22 @@
-import { connect } from 'react-redux';
-import ContactsTable from '../components/ContactsTable';
+// import { connect } from 'react-redux';
+// import ContactsTable from '../components/ContactsTable';
 
-const mapStateToProps = state => {
-  return {
-    contacts: state.contactsReducer.contacts 
-  }
-}
-
-// const mapDispatchToProps = dispatch => {
+// const mapStateToProps = state => {
+//   console.info(state)
 //   return {
-      
+//     contacts: state.contactsReducer.contacts 
 //   }
 // }
 
-const ShowContacts = connect(
-  mapStateToProps,
-  //mapDispatchToProps
-)(ContactsTable)
+// // const mapDispatchToProps = dispatch => {
+// //   return {
+      
+// //   }
+// // }
 
-export default ShowContacts
+// const ShowContacts = connect(
+//   mapStateToProps,
+//   //mapDispatchToProps
+// )(ContactsTable)
+
+// export default ShowContacts
