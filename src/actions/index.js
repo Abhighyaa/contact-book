@@ -18,7 +18,7 @@ export const fetchWithDeletedContact = contact => {
   return dispatch => {
     return deleteContactFun(contact).then(newContacts => {
       dispatch(updateContacts(newContacts));
-      var v=document.getElementById('name').value`
+      var v=document.getElementById('name').value
       dispatch(fetchSuggestions(v,newContacts));
     });
   };
