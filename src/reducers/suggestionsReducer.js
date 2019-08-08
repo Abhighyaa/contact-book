@@ -12,10 +12,11 @@ const suggestionsReducer = (state=initialState, action) => {
             suggestedNames.push(contact.name);
           }
         });
-        document.querySelector("#suggestions").textContent = suggestedNames;
         return suggestedNames;
+        // document.querySelector("#suggestions").textContent = suggestedNames;
+        // return Object.assign({}, state, {  suggestedNames });
       } else {
-        document.querySelector("#suggestions").textContent = "";
+        // document.querySelector("#suggestions").textContent = "";
         suggestedNames=[]
         return suggestedNames;
       }

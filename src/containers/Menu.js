@@ -1,10 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import { addContactFun } from "../apiCalls";
 import store from "../store";
 import {
   fetchWithNewContact,
-  fetchSortedContacts,
+  updateSortBy,
   fetchSuggestions,
   updateContacts
 } from "../actions";
@@ -48,6 +47,8 @@ class Menu extends React.Component {
     this.props.dispatch(fetchWithNewContact(c));
   }
   render() {
+    const suggestedNames = store.getState().suggestionsReducer;
+
     return (
       <div>
         Name :{" "}
@@ -63,7 +64,7 @@ class Menu extends React.Component {
         </button>
         <select
           id="sortBy"
-          onChange={e => this.props.dispatch(fetchSortedContacts())}
+          onChange={e => this.props.dispatch(updateSortBy(e.target.value))}
         >
           <option value="" selected={true} disabled>
             Sort by
@@ -71,9 +72,18 @@ class Menu extends React.Component {
           <option value="name">Name</option>
           <option value="contacts">Contacts</option>
         </select>
+        {console.log(suggestedNames)}
+        {Object.keys(suggestedNames).map(function(key) {
+          return <p>{suggestedNames[key]}</p>;
+        })}
       </div>
     );
   }
 }
-
-export default connect()(Menu);
+const mapStateToProps = state => {
+  console.info(state)
+  return {
+    suggestedNames: state.suggestionsReducer 
+  }
+}
+export default connect(mapStateToProps)(Menu);

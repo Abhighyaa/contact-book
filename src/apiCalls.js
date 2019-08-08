@@ -55,3 +55,22 @@ export function deleteContactFun(contact) {
     }, 100);
   });
 }
+
+export function editContactFun(contact,editedContactObj) {
+  return new Promise(function(resolve, reject) {
+    setTimeout(function() {
+      var localStorageContacts = JSON.parse(localStorage.getItem("contacts"))[
+        "contacts"
+      ];
+
+      var updatedContacts = [];
+      localStorageContacts.forEach((c, index) => {
+        if (c.contact != contact) updatedContacts.push(c);
+        else {updatedContacts.push(editedContactObj)}
+      });
+      var storageStructure = JSON.stringify({ contacts: updatedContacts });
+      localStorage.setItem("contacts", storageStructure);
+      resolve(updatedContacts);
+    }, 100);
+  });
+}

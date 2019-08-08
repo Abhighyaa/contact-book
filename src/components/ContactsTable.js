@@ -2,8 +2,9 @@ import React from "react";
 import Contact from "./Contact.js";
 import store from "../store.js";
 
-const ContactsTable = props => {
+const ContactsTable = () => {
   const { contacts } = store.getState().contactsReducer;
+
   return (
     <div>
       <table>

@@ -5,7 +5,8 @@ if (localStorage.getItem("contacts") != null) {
   ];
 }
 const initialState = {
-  contacts: localStorageContacts
+  contacts: localStorageContacts,
+  sortBy: ""
   // not sure if we need this !?
   // contact: {},
   // suggestions: []
@@ -16,22 +17,26 @@ const initialState = {
  * refs in React
  */
 const contactsReducer = (state = initialState, action) => {
-  // console.info(state)
+  const updatingContacts = (contacts, sortBy) => {
+    if (sortBy.localeCompare("name") === 0) {
+      contacts.sort((a, b) => {
+        return a.name.localeCompare(b.name);
+      });
+    }
+    if (sortBy.localeCompare("contacts") === 0) {
+      contacts.sort((a, b) => {
+        return a.contact - b.contact;
+      });
+    }
+    return contacts;
+  };
   switch (action.type) {
     case "Update_Contacts":
       // ?!
       console.log(action.contacts);
-      var sortBy = document.querySelector("#sortBy").value;
-      if (sortBy.localeCompare("name") === 0) {
-        action.contacts.sort((a, b) => {
-          return a.name.localeCompare(b.name);
-        });
-      }
-      if (sortBy.localeCompare("contacts") === 0) {
-        action.contacts.sort((a, b) => {
-          return a.contact - b.contact;
-        });
-      }
+      var sortBy = state.sortBy;
+      console.log(sortBy);
+      action.contacts = updatingContacts(action.contacts, sortBy);
       return Object.assign({}, state, {
         contacts: action.contacts,
         suggestions: []
@@ -39,19 +44,10 @@ const contactsReducer = (state = initialState, action) => {
 
     case "Fetch_Sorted_Contacts":
       var contacts = [...state.contacts];
-      console.log(contacts);
-      var sortBy = document.querySelector("#sortBy").value;
-      if (sortBy.localeCompare("name") === 0) {
-        contacts.sort((a, b) => {
-          return a.name.localeCompare(b.name);
-        });
-      }
-      if (sortBy.localeCompare("contacts") === 0) {
-        contacts.sort((a, b) => {
-          return a.contact - b.contact;
-        });
-      }
-      return Object.assign({}, state, { contacts: contacts });
+      var sortBy = action.sortBy;
+      // var sortBy = document.querySelector("#sortBy").value;
+      contacts = updatingContacts(contacts, sortBy);
+      return Object.assign({}, state, { contacts, sortBy });
     // case "Fetch_Suggestions":
     //   var suggestedNames = [];
     //   if (action.suggestionsFor != "") {

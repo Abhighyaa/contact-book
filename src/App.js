@@ -8,11 +8,11 @@ import ContactsTable from "./components/ContactsTable";
 // export, export default, exports
 
 const App = () => {
+  // const suggestedNames = store.getState().suggestionsReducer.suggestedNames;
   return (
     <Provider store={store}>
       <div className="App">
         <Menu></Menu>
-        <div id="suggestions"></div>
         <ContactsTable></ContactsTable>
       </div>
     </Provider>
